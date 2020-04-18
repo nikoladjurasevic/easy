@@ -12,7 +12,14 @@ public class BaseTest {
 
     WebDriver openChromeDriver() {
         ChromeOptions options = new ChromeOptions();
-        System.setProperty("webdriver.chrome.driver", "C:\\easy\\src\\driver\\chromedriver.exe");
+        options.addArguments("--start-maximized\"");
+        options.addArguments("--ignore-certificate-errors");
+        options.addArguments("--disable-popup-blocking");
+        options.addArguments("--incognito");
+        String path = System.getProperty("user.dir");
+        String separator = System.getProperty("file.separator");
+        System.setProperty("webdriver.chrome.driver", path+separator+"src"+separator+"driver"+separator +"chromedriver.exe");
+        //System.setProperty("webdriver.chrome.driver", "C:\\easy\\src\\driver\\chromedriver.exe");
         ChromeDriver driver = new ChromeDriver();
         driver.get(homeUrl);
         return  driver;
