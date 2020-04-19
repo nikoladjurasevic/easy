@@ -8,21 +8,27 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.concurrent.TimeUnit;
+
 public class BasePage {
 
     @FindBy(id= "site-name")
-    WebElement homeLogo;
+    WebElement homeLogoLocator;
 
     @FindBy(className = "panel panel-default")
-    WebElement leftSideMenu;
+    WebElement leftSideMenuLocator;
 
     @FindBy(id = "home_bar")
-    WebElement homeButton;
+    WebElement homeButtonLocator;
 
     @FindBy(id = "basic_example")
-    WebElement basicExampleButton;
+    WebElement basicExampleButtonLocator;
 
+    @FindBy(xpath = "//div[@class= 'list-group']/a[contains(@href,'./basic-first-form-demo.html')]")
+    WebElement simpleFormDemoBoardLocator;
 
+    @FindBy(id = "user-message")
+    WebElement messageLocator;
 
 
     protected WebDriver driver = null;
@@ -31,17 +37,27 @@ public class BasePage {
         this.driver = driver;
     }
 
-
     private Boolean isElementPresent(WebElement element) {
-        return element.isDisplayed();
+        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+        Boolean isPresent = element.isDisplayed();
+        return isPresent;
     }
 
     public void clickBasicExamples() {
-        assert isElementPresent(basicExampleButton) : "Basic Examples Link is not present on page";
-        basicExampleButton.click();
+        assert isElementPresent(basicExampleButtonLocator) : "Basic Examples Link is not present on page";
+        basicExampleButtonLocator.click();
     }
 
+    public void clickSimpleFormDemoFromBoard() {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", simpleFormDemoBoardLocator);
+        assert isElementPresent(simpleFormDemoBoardLocator) : "Simple Form Demo Locator on Board is not present";
+        simpleFormDemoBoardLocator.click();
+    }
 
+    public void enterMessageForSingleInputField(String sText) {
+        assert isElementPresent(messageLocator) : "Single Input Field is not present on page";
+        messageLocator.sendKeys(sText);
+    }
 
 
 

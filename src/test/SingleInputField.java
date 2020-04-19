@@ -5,15 +5,20 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 import pages.BasePage;
 
-public class test1 extends BaseTest {
+public class SingleInputField extends BaseTest {
 
         @Test
-        public void test1(){
+        public void testSingleInputField(){
 
                 WebDriver driver = openChromeDriver();
                 BasePage page = new BasePage(driver);
                 WebDriverWait wait = new WebDriverWait(driver,2);
+                //Thread.sleep(500);
                 page.clickBasicExamples();
+                page.clickSimpleFormDemoFromBoard();
+                String currentUrl = driver.getCurrentUrl();
+                assert currentUrl.contains("basic-first-form-demo") : "Wrong URL";
+                page.enterMessageForSingleInputField("Neki random text");
 
 
 
