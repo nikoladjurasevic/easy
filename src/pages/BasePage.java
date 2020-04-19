@@ -4,7 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 public class BasePage {
 
@@ -17,32 +19,28 @@ public class BasePage {
     @FindBy(id = "home_bar")
     WebElement homeButton;
 
-    @FindBy(xpath = "//a[@href= '#basic']")
+    @FindBy(id = "basic_example")
     WebElement basicExampleButton;
 
-    By basicExample = By.id("home_bar");
 
 
 
     protected WebDriver driver = null;
     public BasePage(WebDriver driver) {
+        PageFactory.initElements(driver, this);
         this.driver = driver;
     }
 
 
     private Boolean isElementPresent(WebElement element) {
-        Boolean isPresent = driver.findElements(basicExample).size() == 1;
-        return isPresent;
+        return element.isDisplayed();
     }
 
     public void clickBasicExamples() {
-        //Boolean isPresent = driver.findElements(basicExample).size() == 1;
-        //assert isElementPresent(basicExampleButton) : "trt";
-        //((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", basicExampleButton);
-        JavascriptExecutor executor = (JavascriptExecutor)driver;
-        executor.executeScript("arguments[0].click();", basicExampleButton);
-        //basicExample.click();
+        assert isElementPresent(basicExampleButton) : "Basic Examples Link is not present on page";
+        basicExampleButton.click();
     }
+
 
 
 
