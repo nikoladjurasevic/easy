@@ -19,7 +19,7 @@ public class SingleInputField extends BaseTest {
                 String currentUrl = driver.getCurrentUrl();
                 assert currentUrl.contains("basic-first-form-demo") : "Wrong URL";
                 page.enterMessageForSingleInputField("Neki random text");
-
+                page.clickShowMessageForSingleInputField();
 
 
 
