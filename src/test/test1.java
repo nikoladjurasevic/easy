@@ -12,7 +12,7 @@ public class test1 extends BaseTest {
 
                 WebDriver driver = openChromeDriver();
                 BasePage page = new BasePage(driver);
-                WebDriverWait wait = new WebDriverWait(driver,1);
+                WebDriverWait wait = new WebDriverWait(driver,2);
                 page.clickBasicExamples();
 
 
