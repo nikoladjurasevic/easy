@@ -3,6 +3,8 @@
 
 #all idea files
 .idea/
+#target folder
+/target/**
 # User-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml
