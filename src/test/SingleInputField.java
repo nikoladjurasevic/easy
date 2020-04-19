@@ -10,20 +10,20 @@ public class SingleInputField extends BaseTest {
         @Test
         public void testSingleInputField(){
 
+                String sMessage = "Neki random text";
+
                 WebDriver driver = openChromeDriver();
                 BasePage page = new BasePage(driver);
                 WebDriverWait wait = new WebDriverWait(driver,2);
-                //Thread.sleep(500);
                 page.clickBasicExamples();
                 page.clickSimpleFormDemoFromBoard();
                 String currentUrl = driver.getCurrentUrl();
                 assert currentUrl.contains("basic-first-form-demo") : "Wrong URL";
-                page.enterMessageForSingleInputField("Neki random text");
+                page.enterMessageForSingleInputField(sMessage);
                 page.clickShowMessageForSingleInputField();
-
-
-
-                //driver.close();
+                String sCurrentMessageText = page.getYourMessageText();
+                assert sCurrentMessageText.equals(sMessage) : "Expected: " + sMessage + ", but got: " + sCurrentMessageText;
+                driver.close();
     }
 
 
