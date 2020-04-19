@@ -15,6 +15,8 @@ import java.util.concurrent.TimeUnit;
 
 public class BasePage {
 
+    //Home page
+
     @FindBy(id= "site-name")
     WebElement homeLogoLocator;
 
@@ -27,6 +29,8 @@ public class BasePage {
     @FindBy(id = "basic_example")
     WebElement basicExampleButtonLocator;
 
+    //Simple Form Demo Page
+
     @FindBy(xpath = "//div[@class= 'list-group']/a[contains(@href,'./basic-first-form-demo.html')]")
     WebElement simpleFormDemoBoardLocator;
 
@@ -36,20 +40,28 @@ public class BasePage {
     @FindBy(xpath = "//form[@id='get-input']//button[@class ='btn btn-default']")
     WebElement showMessageButtonLocator;
 
+    @FindBy(xpath = "//div[@id='user-message']//span")
+    WebElement customMessageTextLocator;
+
     protected WebDriver driver = null;
     public BasePage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
     }
 
+    //General methods
+
     private Boolean isElementPresent(WebElement element) {
         WebDriverWait wait = new WebDriverWait(driver, 2);
         wait.until(ExpectedConditions.visibilityOf(element));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
         Boolean isPresent = element.isDisplayed();
-        assert isPresent : "WebElement: " + element.toString() + " is not present on Page";
+        String sElement = element.toString();
+        assert isPresent : "WebElement: " + sElement + " is not present on Page";
         return isPresent;
     }
+
+    //Home page methods
 
     public void clickBasicExamples() {
         assert isElementPresent(basicExampleButtonLocator) : "Basic Examples Link is not present on page";
@@ -61,6 +73,8 @@ public class BasePage {
         simpleFormDemoBoardLocator.click();
     }
 
+    //Simple Form demo page methods
+
     public void enterMessageForSingleInputField(String sText) {
         assert isElementPresent(messageLocator) : "Single Input Field is not present on page";
         messageLocator.sendKeys(sText);
@@ -71,6 +85,11 @@ public class BasePage {
         showMessageButtonLocator.click();
     }
 
+    public String getYourMessageText() {
+        assert isElementPresent(customMessageTextLocator) : "Custom Message text is not present on page";
+        String currentMessageText = customMessageTextLocator.getText();
+        return currentMessageText;
+    }
 
 
 
