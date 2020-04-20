@@ -4,6 +4,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 import pages.BasePage;
+import pages.PageUrls;
 
 public class SingleInputField extends BaseTest {
 
@@ -14,11 +15,10 @@ public class SingleInputField extends BaseTest {
 
                 WebDriver driver = openChromeDriver();
                 BasePage page = new BasePage(driver);
-                WebDriverWait wait = new WebDriverWait(driver,2);
                 page.clickBasicExamples();
-                page.clickSimpleFormDemoFromBoard();
-                String currentUrl = driver.getCurrentUrl();
-                assert currentUrl.contains("basic-first-form-demo") : "Wrong URL";
+                page.clickSimpleFormDemoLinkFromBoard();
+                String sCurrentUrl = driver.getCurrentUrl();
+                assert sCurrentUrl.equals(PageUrls.basic_first_form_demo_url) : "Wrong URL. Expected: " + PageUrls.basic_first_form_demo_url + ", but got: " +sCurrentUrl;
                 page.enterMessageForSingleInputField(sMessage);
                 page.clickShowMessageForSingleInputField();
                 String sCurrentMessageText = page.getYourMessageText();

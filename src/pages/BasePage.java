@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 public class BasePage {
 
-    //Home page
+    //Home page locators
 
     @FindBy(id= "site-name")
     WebElement homeLogoLocator;
@@ -29,7 +29,7 @@ public class BasePage {
     @FindBy(id = "basic_example")
     WebElement basicExampleButtonLocator;
 
-    //Simple Form Demo Page
+    //Simple Form Demo page locators
 
     @FindBy(xpath = "//div[@class= 'list-group']/a[contains(@href,'./basic-first-form-demo.html')]")
     WebElement simpleFormDemoBoardLocator;
@@ -43,11 +43,23 @@ public class BasePage {
     @FindBy(xpath = "//div[@id='user-message']//span")
     WebElement customMessageTextLocator;
 
+    //Basic Checkbox Demo page locators
+
+    @FindBy(xpath = "//div[@class= 'list-group']/a[contains(@href,'./basic-checkbox-demo.html')]")
+    WebElement checkboxDemoBoardLocator;
+
+    @FindBy(id = "isAgeSelected")
+    WebElement singleCheckboxLocator;
+
+    @FindBy(id = "txtAge")
+    WebElement successMessageForCheckboxLocator;
+
     protected WebDriver driver = null;
     public BasePage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
     }
+
 
     //General methods
 
@@ -68,9 +80,15 @@ public class BasePage {
         basicExampleButtonLocator.click();
     }
 
-    public void clickSimpleFormDemoFromBoard() {
+    public void clickSimpleFormDemoLinkFromBoard() {
         assert isElementPresent(simpleFormDemoBoardLocator) : "Simple Form Demo Locator on Board is not present";
         simpleFormDemoBoardLocator.click();
+    }
+
+    public void clickChecBoxDemoLinkFromBoard() {
+        assert isElementPresent(checkboxDemoBoardLocator) : "Checkbox Demo locator on Board is not present";
+        checkboxDemoBoardLocator.click();
+
     }
 
     //Simple Form demo page methods
@@ -86,13 +104,33 @@ public class BasePage {
     }
 
     public String getYourMessageText() {
-        assert isElementPresent(customMessageTextLocator) : "Custom Message text is not present on page";
+        assert isElementPresent(customMessageTextLocator) : "Custom Message text is not present";
         String currentMessageText = customMessageTextLocator.getText();
         return currentMessageText;
     }
 
+    //Basic Checkbox Demo page methods
+    public void clickCheckboxForSingleCheckboxDemo() {
+        singleCheckboxLocator.click();
+    }
 
+    public Boolean isSingleCheckboxChecked() {
+        Boolean isShown = successMessageForCheckboxLocator.getAttribute("style").contains("block");
+        return isShown;
+    }
 
+    public void checkSingleCheckboxDemo() {
+        assert isElementPresent(singleCheckboxLocator) : "Single checkbox is not present";
+        Boolean bChecked = isSingleCheckboxChecked();
+        if(bChecked==false) {
+            clickCheckboxForSingleCheckboxDemo();
+        }
+    }
 
+    public String getSingleCheckboxSuccessMessage() {
+        assert isElementPresent(successMessageForCheckboxLocator) : "Success message is not present";
+        String sMessage = successMessageForCheckboxLocator.getText();
+        return sMessage;
+    }
 
 }
