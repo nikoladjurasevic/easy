@@ -1,5 +1,7 @@
 package pages;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -15,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 public class BasePage {
 
+    private static final Logger log = LogManager.getLogger(BasePage.class);
     //Home page locators
 
     @FindBy(id= "site-name")
