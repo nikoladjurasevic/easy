@@ -1,6 +1,5 @@
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -23,7 +22,7 @@ public class BaseTest {
         System.setProperty("webdriver.chrome.driver", path+separator+"src"+separator+"driver"+separator +"chromedriver.exe");
         //System.setProperty("webdriver.chrome.driver", "C:\\easy\\src\\driver\\chromedriver.exe");
         ChromeDriver driver = new ChromeDriver(options);
-        log.debug("Openinig Chrome driver");
+        log.debug("Opening Chrome driver");
         driver.get(PageUrls.homeUrl);
         return  driver;
 
