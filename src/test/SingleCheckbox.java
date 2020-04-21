@@ -5,7 +5,6 @@ import pages.BasePage;
 
 public class SingleCheckbox extends BaseTest {
 
-
     @Test
     public void testSingleCheckboxTest() {
         log.info("testSingleCheckboxTest()");
