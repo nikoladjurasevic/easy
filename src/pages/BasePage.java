@@ -2,6 +2,7 @@ package pages;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -74,13 +75,21 @@ public class BasePage {
     //Select Dropdown List page locators
 
     @FindBy(xpath = "//div[@class= 'list-group']/a[contains(@href,'./basic-select-dropdown-demo.html')]")
-    WebElement selectDropdownListBoardLocator;
+    WebElement dropdownListBoardLocator;
 
     @FindBy(id = "select-demo")
     WebElement selectListDemoDropdownLocator;
 
     @FindBy(xpath = "//p[@class = 'selected-value']")
     WebElement selectListDemoMessageLocator;
+
+    //JavaScript Alerts page locators
+
+    @FindBy(xpath = "//div[@class= 'list-group']/a[contains(@href,'./javascript-alert-box-demo.html')]")
+    WebElement javaScriptAlertsBoardLocator;
+
+    @FindBy(xpath = "//button[@onclick = 'myAlertFunction()']")
+    WebElement javaScriptAlertBoxButtonLocator;
 
     protected WebDriver driver = null;
     public BasePage(WebDriver driver) {
@@ -139,9 +148,16 @@ public class BasePage {
 
     public void clickSelectDropdownListFromBoard() {
         log.debug("clickSelectDropdownListFromBoard()");
-        assert isElementPresent(selectDropdownListBoardLocator) : "Select Dropdown List locator on Board is not present";
-        selectDropdownListBoardLocator.click();
+        assert isElementPresent(dropdownListBoardLocator) : "Select Dropdown List locator on Board is not present";
+        dropdownListBoardLocator.click();
         checkUrl(PageUrls.basic_select_dropdown_demo_url);
+    }
+
+    public void clickJavaScriptAlertsFromBoard() {
+        log.debug("clickJavaScriptAlertsFromBoard()");
+        assert isElementPresent(javaScriptAlertsBoardLocator) : "Javascript Alerts locator on Board is not present";
+        javaScriptAlertsBoardLocator.click();
+        checkUrl(PageUrls.basic_javascript_alert_box_demo_url);
     }
 
     //Simple Form demo page methods
@@ -236,4 +252,14 @@ public class BasePage {
         String sMessage = selectListDemoMessageLocator.getText();
         return sMessage;
     }
+
+    //Basic Java Script Alerts Demo page methods
+
+    public void clickJavaScriptAlertBoxButton() {
+        log.debug("clickJavaScriptAlertBoxButton()");
+        assert isElementPresent(javaScriptAlertBoxButtonLocator) : "Java Script Alert Box button is no present";
+        javaScriptAlertBoxButtonLocator.click();
+    }
+
+
 }
