@@ -7,7 +7,7 @@ public class SingleCheckbox extends BaseTest {
 
     @Test
     public void testSingleCheckboxTest() {
-
+        log.info("testSingleCheckboxTest()");
         String sExpectedSuccessMessage = "Success - Check box is checked";
 
         WebDriver driver = openChromeDriver();
