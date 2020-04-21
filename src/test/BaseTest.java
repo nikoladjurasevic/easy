@@ -1,14 +1,18 @@
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import pages.PageUrls;
 
-public class BaseTest {
+import java.io.File;
 
-    private static final Logger log = LogManager.getLogger(BaseTest.class);
+public class BaseTest {
+    static final Logger log = LogManager.getLogger(BaseTest.class);
+
     WebDriver openChromeDriver() {
+        log.debug("Setting up Chrome driver");
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-maximized");
         options.addArguments("--ignore-certificate-errors");

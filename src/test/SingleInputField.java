@@ -10,12 +10,14 @@ public class SingleInputField extends BaseTest {
 
         @Test
         public void testSingleInputField(){
-
+                log.info("testSingleInputField()");
                 String sMessage = "Neki random text";
 
                 WebDriver driver = openChromeDriver();
                 BasePage page = new BasePage(driver);
+                log.debug("click on Basic examples button");
                 page.clickBasicExamples();
+                log.debug("click on Simple form demo");
                 page.clickSimpleFormDemoLinkFromBoard();
                 String sCurrentUrl = driver.getCurrentUrl();
                 assert sCurrentUrl.equals(PageUrls.basic_first_form_demo_url) : "Wrong URL. Expected: " + PageUrls.basic_first_form_demo_url + ", but got: " +sCurrentUrl;
