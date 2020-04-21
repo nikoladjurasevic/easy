@@ -2,15 +2,14 @@ package pages;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
@@ -31,6 +30,7 @@ public class BasePage {
 
     @FindBy(id = "basic_example")
     WebElement basicExampleButtonLocator;
+
 
     //Simple Form Demo page locators
 
@@ -71,6 +71,17 @@ public class BasePage {
     @FindBy(xpath = "//div[text() = 'Radio Button Demo']/..//p[@class = 'radiobutton']")
     WebElement getRadioButtonDemoMessageLocator;
 
+    //Select Dropdown List page locators
+
+    @FindBy(xpath = "//div[@class= 'list-group']/a[contains(@href,'./basic-select-dropdown-demo.html')]")
+    WebElement selectDropdownListBoardLocator;
+
+    @FindBy(id = "select-demo")
+    WebElement selectListDemoDropdownLocator;
+
+    @FindBy(xpath = "//p[@class = 'selected-value']")
+    WebElement selectListDemoMessageLocator;
+
     protected WebDriver driver = null;
     public BasePage(WebDriver driver) {
         log.debug("BasePage");
@@ -89,6 +100,12 @@ public class BasePage {
         String sElement = element.toString();
         assert isPresent : "WebElement: " + sElement + " is not present on Page";
         return isPresent;
+    }
+
+    public void checkUrl(String sUrl) {
+        log.debug("checkRedirectUrl (" + sUrl + ")");
+        String sCurrentUrl = driver.getCurrentUrl();
+        assert sCurrentUrl.contains(sUrl) : "Wrong URL. Expected: " + sUrl + ", but got: " + sCurrentUrl;
     }
 
     //Home page methods
@@ -120,6 +137,12 @@ public class BasePage {
         checkUrl(PageUrls.basic_radiobutton_demo_url);
     }
 
+    public void clickSelectDropdownListFromBoard() {
+        log.debug("clickSelectDropdownListFromBoard()");
+        assert isElementPresent(selectDropdownListBoardLocator) : "Select Dropdown List locator on Board is not present";
+        selectDropdownListBoardLocator.click();
+        checkUrl(PageUrls.basic_select_dropdown_demo_url);
+    }
 
     //Simple Form demo page methods
 
@@ -192,14 +215,25 @@ public class BasePage {
         }
 
 
-    //General methods
+    //Basic Select Dropdown Demo page methods
 
-    public void checkUrl(String sUrl) {
-        log.debug("checkRedirectUrl (" + sUrl + ")");
-        String sCurrentUrl = driver.getCurrentUrl();
-        assert sCurrentUrl.contains(sUrl) : "Wrong URL. Expected: " + sUrl + ", but got: " + sCurrentUrl;
+    public void clickSelectListDemoDropdown() {
+        log.debug("clickSelectListDemoDropdown()");
+        assert isElementPresent(selectListDemoDropdownLocator): "Select List Demo Dropdown is not present";
+        selectListDemoDropdownLocator.click();
     }
 
+    public void selectValueFromSelectListDemoDropdown(String sValue) {
+        log.debug("selectValueFromSelectListDemoDropdown (" + sValue + ")");
+        assert isElementPresent(selectListDemoDropdownLocator) : "Select List Demo Dropdown is not present";
+        Select day = new Select(selectListDemoDropdownLocator);
+        day.selectByValue(sValue);
+    }
 
-
+    public String getSelectListDemoMessage() {
+        log.debug("getSelectListDemoMessage()");
+        assert isElementPresent(selectListDemoMessageLocator) : "Select List Demo Message is not present";
+        String sMessage = selectListDemoMessageLocator.getText();
+        return sMessage;
+    }
 }

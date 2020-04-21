@@ -4,7 +4,6 @@ import pages.BasePage;
 
 public class SingleInputField extends BaseTest {
 
-
         @Test
         public void testSingleInputField(){
                 log.info("testSingleInputField()");
