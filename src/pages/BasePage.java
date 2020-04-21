@@ -57,6 +57,20 @@ public class BasePage {
     @FindBy(id = "txtAge")
     WebElement successMessageForCheckboxLocator;
 
+    //Radio Button Demo page locators
+
+    @FindBy(xpath = "//div[@class= 'list-group']/a[contains(@href,'./basic-radiobutton-demo.html')]")
+    WebElement radioButtonDemoBoardLocator;
+
+    @FindBy(xpath = "//div[text() = 'Radio Button Demo']/..//input[@value = 'Male']")
+    WebElement maleRadioButtonInRadioButtonDemoGroupLocator;
+
+    @FindBy(xpath = "//div[text() = 'Radio Button Demo']/..//button[@id = 'buttoncheck']")
+    WebElement getCheckedValueButtonLocator;
+
+    @FindBy(xpath = "//div[text() = 'Radio Button Demo']/..//p[@class = 'radiobutton']")
+    WebElement getRadioButtonDemoMessageLocator;
+
     protected WebDriver driver = null;
     public BasePage(WebDriver driver) {
         log.debug("BasePage");
@@ -89,14 +103,23 @@ public class BasePage {
         log.debug("clickSimpleFormDemoLinkFromBoard()");
         assert isElementPresent(simpleFormDemoBoardLocator) : "Simple Form Demo Locator on Board is not present";
         simpleFormDemoBoardLocator.click();
+        checkUrl(PageUrls.basic_first_form_demo_url);
     }
 
     public void clickChecBoxDemoLinkFromBoard() {
         log.debug("clickChecBoxDemoLinkFromBoard()");
         assert isElementPresent(checkboxDemoBoardLocator) : "Checkbox Demo locator on Board is not present";
         checkboxDemoBoardLocator.click();
-
+        checkUrl(PageUrls.basic_checkbox_demo_url);
     }
+
+    public void clickRadioButtonsDemoLinkFromBoard() {
+        log.debug("clickRadioButtonsDemoLinkFromBoard()");
+        assert isElementPresent(radioButtonDemoBoardLocator) : "Radio Buttons Demo locator on Board is not present";
+        radioButtonDemoBoardLocator.click();
+        checkUrl(PageUrls.basic_radiobutton_demo_url);
+    }
+
 
     //Simple Form demo page methods
 
@@ -146,5 +169,37 @@ public class BasePage {
         String sMessage = successMessageForCheckboxLocator.getText();
         return sMessage;
     }
+
+    //Basic Radio Button Demo page methods
+
+    public void clickMaleRadioButtonInRadioButtonDemoSection() {
+        log.debug("clickMaleRadioButtonInRadioButtonDemoSection()");
+        assert isElementPresent(maleRadioButtonInRadioButtonDemoGroupLocator) : "Male radio button on Radio Button Demo section is not present";
+        maleRadioButtonInRadioButtonDemoGroupLocator.click();
+    }
+
+    public void clickGetCheckedValueButton() {
+        log.debug("clickGetCheckedValueButton()");
+        assert  isElementPresent(getCheckedValueButtonLocator) : "Get Checked Value button is not present";
+        getCheckedValueButtonLocator.click();
+    }
+
+    public String getRadioButtonDemoMessage() {
+        log.debug("getRadioButtonDemoMessage()");
+        assert isElementPresent(getRadioButtonDemoMessageLocator) : "Radio Button Demo message is not present";
+        String sMessage = getRadioButtonDemoMessageLocator.getText();
+        return sMessage;
+        }
+
+
+    //General methods
+
+    public void checkUrl(String sUrl) {
+        log.debug("checkRedirectUrl (" + sUrl + ")");
+        String sCurrentUrl = driver.getCurrentUrl();
+        assert sCurrentUrl.contains(sUrl) : "Wrong URL. Expected: " + sUrl + ", but got: " + sCurrentUrl;
+    }
+
+
 
 }
