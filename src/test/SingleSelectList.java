@@ -16,7 +16,8 @@ public class SingleSelectList extends BaseTest{
 //        page.clickSelectListDemoDropdown();
         page.selectValueFromSelectListDemoDropdown(sDay);
         String sCurrentSuccessMessage = page.getSelectListDemoMessage();
-        assert sCurrentSuccessMessage.equals(sExpectedSuccessMessage) : "Wrong text: Expected: " + sExpectedSuccessMessage + ", but got: " +sCurrentSuccessMessage;
+        assert sCurrentSuccessMessage.equals(sExpectedSuccessMessage) : "Wrong text: Expected: " + sExpectedSuccessMessage
+                + ", but got: " +sCurrentSuccessMessage;
         driver.quit();
     }
 

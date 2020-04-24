@@ -16,7 +16,8 @@ public class JavaScriptAlertBox extends BaseTest{
         page.clickJavaScriptAlertBoxButton();
         Alert alert = driver.switchTo().alert();
         String sCurrentAlertMessage = driver.switchTo().alert().getText();
-        assert sCurrentAlertMessage.equals(sExpectedAlertMessage) : "Wrong text: Expected: " + sExpectedAlertMessage + ", but got: " + sCurrentAlertMessage;
+        assert sCurrentAlertMessage.equals(sExpectedAlertMessage) : "Wrong text: Expected: " + sExpectedAlertMessage
+                + ", but got: " + sCurrentAlertMessage;
         alert.accept();
         driver.quit();
     }

@@ -16,7 +16,8 @@ public class SingleCheckbox extends BaseTest {
         page.clickChecBoxDemoLinkFromBoard();;
         page.checkSingleCheckboxDemo();
         String sCurrentSuccessMessage = page.getSingleCheckboxSuccessMessage();
-        assert sCurrentSuccessMessage.equals(sExpectedSuccessMessage) : "Wrong text: Expected: " + sExpectedSuccessMessage + ", but got: " +sCurrentSuccessMessage;
+        assert sCurrentSuccessMessage.equals(sExpectedSuccessMessage) : "Wrong text: Expected: " + sExpectedSuccessMessage
+                + ", but got: " +sCurrentSuccessMessage;
         driver.quit();
     }
 }

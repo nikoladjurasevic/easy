@@ -32,7 +32,6 @@ public class BasePage {
     @FindBy(id = "basic_example")
     WebElement basicExampleButtonLocator;
 
-
     //Simple Form Demo page locators
 
     @FindBy(xpath = "//div[@class= 'list-group']/a[contains(@href,'./basic-first-form-demo.html')]")
@@ -90,6 +89,15 @@ public class BasePage {
 
     @FindBy(xpath = "//button[@onclick = 'myAlertFunction()']")
     WebElement javaScriptAlertBoxButtonLocator;
+
+    //Window Popup Modal page locators
+
+    @FindBy(xpath = "//div[@class= 'list-group']/a[contains(@href,'./window-popup-modal-demo.html')]")
+    WebElement windowPopupModalBoardLocator;
+
+    @FindBy(xpath = "//a[@title = 'Follow @seleniumeasy on Twitter']")
+    WebElement followOnTwitterButtonLocator;
+
 
     protected WebDriver driver = null;
     public BasePage(WebDriver driver) {
@@ -158,6 +166,13 @@ public class BasePage {
         assert isElementPresent(javaScriptAlertsBoardLocator) : "Javascript Alerts locator on Board is not present";
         javaScriptAlertsBoardLocator.click();
         checkUrl(PageUrls.basic_javascript_alert_box_demo_url);
+    }
+
+    public void clickWindowPopupModalFromBoard() {
+        log.debug("clickWindowPopupModalFromBoard()");
+        assert isElementPresent(windowPopupModalBoardLocator) : "Window Popup Modal locator on Board is not present";
+        windowPopupModalBoardLocator.click();
+        checkUrl(PageUrls.basic_window_popup_modal_demo_url);
     }
 
     //Simple Form demo page methods
@@ -259,6 +274,14 @@ public class BasePage {
         log.debug("clickJavaScriptAlertBoxButton()");
         assert isElementPresent(javaScriptAlertBoxButtonLocator) : "Java Script Alert Box button is no present";
         javaScriptAlertBoxButtonLocator.click();
+    }
+
+    //Basic Window Popup Modal Demo page methods
+
+    public void clickFollowOnTwitterButton() {
+        log.debug("clickFollowOnTwitterButton()");
+        assert isElementPresent(followOnTwitterButtonLocator) : "Follow on Twitter button is not present";
+        followOnTwitterButtonLocator.click();
     }
 
 
