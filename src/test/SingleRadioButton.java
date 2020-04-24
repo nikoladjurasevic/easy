@@ -16,7 +16,8 @@ public class SingleRadioButton extends BaseTest{
         page.clickMaleRadioButtonInRadioButtonDemoSection();
         page.clickGetCheckedValueButton();
         String sCurrentSuccessMessage = page.getRadioButtonDemoMessage();
-        assert sCurrentSuccessMessage.equals(sExpectedSuccessMessage) : "Wrong text: Expected: " + sExpectedSuccessMessage + ", but got: " +sCurrentSuccessMessage;
+        assert sCurrentSuccessMessage.equals(sExpectedSuccessMessage) : "Wrong text: Expected: " + sExpectedSuccessMessage
+                + ", but got: " +sCurrentSuccessMessage;
         driver.quit();
     }
 
