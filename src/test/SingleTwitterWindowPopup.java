@@ -19,6 +19,7 @@ public class SingleTwitterWindowPopup extends  BaseTest{
         page.clickWindowPopupModalFromBoard();
         String oldTab = driver.getWindowHandle();
         log.debug("printing old tab handle: " + oldTab);
+        log.debug("Clicking on 'Follow us on Twitter button'");
         page.clickFollowOnTwitterButton();
         ArrayList<String> allTabs = new ArrayList<String>(driver.getWindowHandles());
         assert allTabs.size()==2 : "To many open tabs. Expected 2, but got: " + allTabs.size();
