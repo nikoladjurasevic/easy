@@ -46,6 +46,18 @@ public class BasePage {
     @FindBy(xpath = "//div[@id='user-message']//span")
     WebElement customMessageTextLocator;
 
+    @FindBy(id = "sum1")
+    WebElement enterALocator;
+
+    @FindBy(id = "sum2")
+    WebElement enterBLocator;
+
+    @FindBy(xpath = "//form[@id='gettotal']/button[@class='btn btn-default']")
+    WebElement getTotalButtonLocator;
+
+    @FindBy(id = "displayvalue")
+    WebElement displayValueLocator;
+
     //Basic Checkbox Demo page locators
 
     @FindBy(xpath = "//div[@class= 'list-group']/a[contains(@href,'./basic-checkbox-demo.html')]")
@@ -194,6 +206,44 @@ public class BasePage {
         assert isElementPresent(customMessageTextLocator) : "Custom Message text is not present";
         String currentMessageText = customMessageTextLocator.getText();
         return currentMessageText;
+    }
+
+    /**
+     * Enter values sValueA and sValueB into 'Two Input Fields'
+     * values can be null for negative testing
+     * @param sValueA
+     * @param sValueB
+     */
+    public void enterValues(String sValueA, String sValueB){
+        log.debug("enterValues(" + sValueA + ", " + sValueB + ")");
+        assert isElementPresent(enterALocator) : "First of two input fields is NOT present!";
+        assert isElementPresent(enterBLocator) : "Second of two intput fields is NOT present!";
+        if(sValueA != null){ // For negative testing
+            enterALocator.sendKeys(sValueA);
+        }
+        if(sValueB != null){ // For negative testing
+            enterBLocator.sendKeys(sValueB);
+        }
+    }
+
+    /**
+     * Click on 'Get Total' button
+     */
+    public void clickGetTotal(){
+        log.debug("clickGetTotal()");
+        assert isElementPresent(getTotalButtonLocator) : "'Get Total' button is NOT present!";
+        getTotalButtonLocator.click();
+    }
+
+    /**
+     * Gets value of 'Total a + b = '
+     * @return {String}
+     */
+    public String getTotalValue(){
+        log.debug("getTotalValue()");
+        assert isElementPresent(displayValueLocator) : "'Total a + b' is NOT present!";
+        String sTotal = displayValueLocator.getText();
+        return sTotal;
     }
 
     //Basic Checkbox Demo page methods

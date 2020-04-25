@@ -3,6 +3,7 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import pages.BasePage;
 import pages.PageUrls;
 
 import java.io.File;
@@ -28,7 +29,18 @@ public class BaseTest {
 
     }
 
+    /**
+     * Check if sInput is a number of not
+     * @param sInput
+     * @return {boolean}
+     */
+    public boolean isNumber(String sInput){
+        try{
+            Integer.parseInt(sInput);
 
-
-
+        } catch (NumberFormatException ex){
+            return  false;
+        }
+        return true;
+    }
 }
