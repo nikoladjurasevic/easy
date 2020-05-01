@@ -21,13 +21,28 @@ public class BaseTest {
         String path = System.getProperty("user.dir");
         String separator = System.getProperty("file.separator");
         System.setProperty("webdriver.chrome.driver", path+separator+"src"+separator+"driver"+separator +"chromedriver.exe");
-        //System.setProperty("webdriver.chrome.driver", "C:\\easy\\src\\driver\\chromedriver.exe");
         ChromeDriver driver = new ChromeDriver(options);
         log.debug("Opening Chrome driver");
         driver.get(PageUrls.homeUrl);
         return  driver;
 
     }
+
+    public void sleepSeconds(int iSeconds){
+        try{
+            log.debug("Sleep for " + Integer.toString(iSeconds) + " seconds");
+            Thread.sleep(iSeconds*1000);
+        }
+        catch (Exception e) {
+            log.debug(e.getStackTrace().toString());
+        }
+    }
+
+
+
+
+
+
 
     /**
      * Check if sInput is a number of not

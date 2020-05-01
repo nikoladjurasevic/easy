@@ -2,17 +2,14 @@ package pages;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class BasePage {
@@ -31,6 +28,12 @@ public class BasePage {
 
     @FindBy(id = "basic_example")
     WebElement basicExampleButtonLocator;
+
+    @FindBy (className = "at4win")
+    WebElement modalLocator;
+
+    @FindBy (className = "at4-close")
+    WebElement closeModalLocator;
 
     //Simple Form Demo page locators
 
@@ -110,12 +113,24 @@ public class BasePage {
     @FindBy(xpath = "//a[@title = 'Follow @seleniumeasy on Twitter']")
     WebElement followOnTwitterButtonLocator;
 
+    //Bootstrap alerts
+
+    @FindBy(xpath = "//div[@class= 'list-group']/a[contains(@href,'./bootstrap-alert-messages-demo.html')]")
+    WebElement bootstrapAlertsBoardLocator;
+
+    @FindBy(className = "btn btn-primary btn-success btn-block")
+    WebElement bootStrapAlertsButtonLocator;
+
+    String sBootStrapButtonsClassName = "//button[contains(@class, 'btn btn-primary')]";
+
+    String sBootStrapAlertClassName = "//div[contains(@class, 'alert alert')]";
 
     protected WebDriver driver = null;
     public BasePage(WebDriver driver) {
         log.debug("BasePage");
         PageFactory.initElements(driver, this);
         this.driver = driver;
+        closeModalIfShows();
     }
 
 
@@ -135,6 +150,12 @@ public class BasePage {
         log.debug("checkRedirectUrl (" + sUrl + ")");
         String sCurrentUrl = driver.getCurrentUrl();
         assert sCurrentUrl.contains(sUrl) : "Wrong URL. Expected: " + sUrl + ", but got: " + sCurrentUrl;
+    }
+
+    public void closeModalIfShows() {
+        log.debug("closeModalIfShows()");
+        Boolean bIsPresent = isElementPresent(modalLocator);
+        if(bIsPresent) closeModalLocator.click();
     }
 
     //Home page methods
@@ -186,6 +207,14 @@ public class BasePage {
         windowPopupModalBoardLocator.click();
         checkUrl(PageUrls.basic_window_popup_modal_demo_url);
     }
+
+    public void clickBootstrapAlertFromBoard() {
+        log.debug("clickBootstrapAlertFromBoard()");
+        assert isElementPresent(bootstrapAlertsBoardLocator) : "Bootstrap Alert locator on Board is not present";
+        bootstrapAlertsBoardLocator.click();
+        checkUrl(PageUrls.basis_boostrap_alert_demo_url);
+    }
+
 
     //Simple Form demo page methods
 
@@ -332,6 +361,79 @@ public class BasePage {
         log.debug("clickFollowOnTwitterButton()");
         assert isElementPresent(followOnTwitterButtonLocator) : "Follow on Twitter button is not present";
         followOnTwitterButtonLocator.click();
+    }
+
+    //BootStrap Alerts Demo page methods
+
+
+    public List<WebElement> getAllAlertButtonsLocators() {
+        log.debug("getAllAlertButtons()");
+        List<WebElement> buttons = driver.findElements(By.xpath(sBootStrapButtonsClassName));
+        return buttons;
+    }
+
+    public int getNumberOfAlertButtonsPresent() {
+        log.debug("getNumberOfAlertButtonsPresent()");
+        List<WebElement> buttons = getAllAlertButtonsLocators();
+        return buttons.size();
+    }
+
+    public boolean areAllAlertsButtonsPresent(int iCount) {
+        log.debug("areAllAlertsButtonsPresent(" + Integer.toString(iCount) + ")");
+        int iActualNumberOfButtons = getNumberOfAlertButtonsPresent();
+        return iActualNumberOfButtons==iCount;
+    }
+
+    public void clickAlertButtonWithLabel(String sButtonName) {
+        log.debug("clickAlertButtonWithLabel(" + sButtonName + ")");
+        List<WebElement> elements = getAllAlertButtonsLocators();
+        for (int i=0;i<elements.size();i++) {
+            WebElement element = elements.get(i);
+            if(element.getText().equals(sButtonName)) {
+                element.click();
+                break;
+            }
+        }
+    }
+
+    public List<WebElement> getAllAlertsLocators () {
+        log.debug("getAllAlertsLocators()");
+        List<WebElement> elements  = driver.findElements(By.xpath(sBootStrapAlertClassName));
+
+        assert elements.size()!=0 : "No elements are present on page";
+        return elements;
+    }
+
+    public boolean isAlertWithTextShown (String sText) {
+        log.debug("isAlertWithTextShown(" + sText + ")");
+        List<WebElement> alerts = getAllAlertsLocators();
+        boolean bIsPresent = false;
+        for (int i=0; i<alerts.size(); i++) {
+            WebElement alert = alerts.get(i);
+            String sActualText = alert.getAttribute("class");
+            String sStyleAttribute = alert.getAttribute("style");
+            if(sActualText.contains(sText) && sStyleAttribute.equals("display: block;")) {
+                bIsPresent = true;
+                break;
+            }
+        }
+        return bIsPresent;
+    }
+
+    public boolean isAlertClosed (String sText) {
+        log.debug("isAlertClosed(" + sText + ")");
+        List<WebElement> alerts = getAllAlertsLocators();
+        boolean bIsPresent = false;
+        for (int i=0; i<alerts.size(); i++) {
+            WebElement alert = alerts.get(i);
+            String sActualText = alert.getAttribute("class");
+            String sStyleAttribute = alert.getAttribute("style");
+            if(sActualText.contains(sText) && sStyleAttribute.equals("display: none;")) {
+                bIsPresent = true;
+                break;
+            }
+        }
+        return bIsPresent;
     }
 
 
