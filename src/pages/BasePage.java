@@ -125,6 +125,30 @@ public class BasePage {
 
     String sBootStrapAlertClassName = "//div[contains(@class, 'alert alert')]";
 
+    //BootStrap Modals
+
+    @FindBy(xpath = "//div[@class= 'list-group']/a[contains(@href,'./bootstrap-modal-demo.html')]")
+    WebElement bootstrapModalBoardLocator;
+
+    @FindBy(xpath = "//a[contains(@href,'#myModal0')]")
+    private WebElement launchSingleModalButtonLocator;
+
+    @FindBy(xpath = "//a[@href='#myModal']")
+    private WebElement launchMultipleModalButtonLocator;
+
+    @FindBy(id = "myModal0")
+    private WebElement myModal0Locator;
+
+    @FindBy(id = "myModal")
+    private WebElement myModalLocator;
+
+    @FindBy(id = "myModal2")
+    private WebElement myModal2Locator;
+
+    private static final String sIsModalOpen = "in";
+    private static final String sModalCloseButtonXpath = "//a[@class='btn' and text()='Close']";
+    private static final String sModalSaveChangesXpath = "//a[@class='btn btn-primary' and text()='Save changes']";
+
     protected WebDriver driver = null;
     public BasePage(WebDriver driver) {
         log.debug("BasePage");
@@ -213,6 +237,16 @@ public class BasePage {
         assert isElementPresent(bootstrapAlertsBoardLocator) : "Bootstrap Alert locator on Board is not present";
         bootstrapAlertsBoardLocator.click();
         checkUrl(PageUrls.basis_boostrap_alert_demo_url);
+    }
+
+    /**
+     * Navigate to Bootstrap Modal Demo section
+     */
+    public void clickBootstrapModalFromBoard(){
+        log.debug("clickBootstrapModalFromBoard()");
+        assert isElementPresent(bootstrapModalBoardLocator): "Bootstrap Modal locator on Board is NOT present";
+        bootstrapModalBoardLocator.click();
+        checkUrl(PageUrls.basic_bootstrap_modal_demo_url);
     }
 
 
@@ -436,5 +470,141 @@ public class BasePage {
         return bIsPresent;
     }
 
+    //BootStrap Modal methods
 
+    /**
+     * Click on 'Launch Modal' button under Single Modal Example
+      */
+    public void clickLaunchSingleModal(){
+        log.debug("clickLaunchSingleModal()");
+        assert isElementPresent(launchSingleModalButtonLocator): "Launch Single Modal Example button is NOT present!";
+        launchSingleModalButtonLocator.click();
+    }
+
+    /**
+     * Click on 'Launch Modal' button uncer Multiple Modal Example
+     */
+    public void clickLaunchMultipleModal(){
+        log.debug("clickLaunchMultipleModal()");
+        assert isElementPresent(launchMultipleModalButtonLocator) : "Launch Multiple Modal Example button is NOT present";
+        launchMultipleModalButtonLocator.click();
+    }
+
+    /**
+     * Checks if  WebElement has class with specific String
+     * @param element {WebElement}
+     * @param sText {String}
+     * @return {boolean}
+     */
+    public boolean hasClass(WebElement element, String sText){
+        log.debug("hasClass(" + element.toString() + ", " + sText + ")" );
+        String classes = element.getAttribute("class");
+        for(String c : classes.split(" ")){
+            if(c.equalsIgnoreCase(sText)){
+                return true;
+            }
+        }
+        return false;
+    }
+    /**
+     * Checks if modal is open/active or not
+     * @param modal
+     * @return {boolean}
+     */
+    public boolean isModalOpen(WebElement modal){
+        log.debug("isModalOpen(" + modal.toString() + ")");
+        if (hasClass(modal, sIsModalOpen)){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    /**
+     * Sets modal locator by String
+     * @param sModal
+     * @return
+     */
+    public WebElement setModal(String sModal) throws Exception{
+        log.debug("isModalOpen(" + sModal + ")");
+        WebElement modal = null;
+        if (sModal.equalsIgnoreCase("single")){
+            modal = myModal0Locator;
+        }else if (sModal.equalsIgnoreCase("multiple1")){
+            modal = myModalLocator;
+        }else if (sModal.equalsIgnoreCase("multiple2")){
+            modal = myModal2Locator;
+        }else {
+            throw new Exception("Wrong modal name! Options for name are 'signle' , 'multiple1' or 'multiple2'");
+        }
+        return modal;
+    }
+
+    /**
+     * Clicks on 'Close' link in given modal
+     * @param modal
+     */
+    public void clickCloseModal(WebElement modal){
+        log.debug("clickCloseModal(" + modal + ")");
+        assert isElementPresent(modal) : modal + " is NOT present!";
+        assert isModalOpen(modal) : "Modal is NOT open!";
+        WebElement close = modal.findElement(By.xpath(sModalCloseButtonXpath));
+        assert isElementPresent(close) : "'Close' link/button is NOT present on Modal!";
+        close.click();
+    }
+
+    /**
+     * Clicks on 'Save changes' button in given modal
+     * @param modal
+     */
+    public void clickSaveChangesModal(WebElement modal){
+        log.debug("clickSaveChangesModal(" + modal + ")");
+        assert isElementPresent(modal) : modal + " is NOT present!";
+        assert isModalOpen(modal) : "Modal is NOT open!";
+        WebElement saveChanges = modal.findElement(By.xpath(sModalSaveChangesXpath));
+        assert isElementPresent(saveChanges) : "'Save changes' button is NOT present on Modal!";
+        saveChanges.click();
+    }
+
+    /**
+     * Gets title for the given modal
+     * @param modal
+     * @return
+     */
+    public String getModalTitle(WebElement modal){
+        log.debug("getModalTitle(" + modal + ")");
+        assert isElementPresent(modal) : modal + " is NOT present!";
+        assert isModalOpen(modal) : "Modal is NOT open!";
+        WebElement title = modal.findElement(By.className("modal-title"));
+        assert isElementPresent(title) : "Modal title is NOT present!";
+        String sTitle = title.getText();
+        return sTitle;
+    }
+
+    /**
+     * Gets modal body text for given modal
+     * @param modal
+     * @return
+     */
+    public String getModalBody(WebElement modal){
+        log.debug("getModalBody()");
+        assert isModalOpen(modal) : "Modal is NOT open!";
+        WebElement body = modal.findElement(By.className("modal-body"));
+        assert isElementPresent(body) : "Modal title is NOT present!";
+        String sTitle = body.getText();
+        return sTitle;
+    }
+
+    /**
+     * Verify modal footer for given modal
+     * @param modal
+     */
+    public void verifyModalFooter(WebElement modal){
+        log.debug("verifyModalFooter(" + modal.toString() + ")");
+        assert isModalOpen(modal) : "Modal is NOT open!";
+        WebElement close = modal.findElement(By.xpath(sModalCloseButtonXpath));
+        assert isElementPresent(close) : "'Close' link/button is NOT present on Modal!";
+        WebElement saveChanges = modal.findElement(By.xpath(sModalSaveChangesXpath));
+        assert isElementPresent(saveChanges) : "'Save changes' button is NOT present on Modal!";
+    }
 }
